@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: practice-prometheus
+  template:
+    metadata:
+      labels:
+        app: practice-prometheus
+    spec:
+      containers:
+        - name: practice-prometheus
+          image: practicing-app-2:v3
+          ports:
+            - containerPort: 8081
+          imagePullPolicy: IfNotPresent
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: practice-prometheus
+spec:
+  selector:
+    app: practice-prometheus
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
+  type: LoadBalancer
